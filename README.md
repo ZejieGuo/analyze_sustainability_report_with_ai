@@ -4,7 +4,6 @@
   <a href="https://github.com/github_username/repo_name">
     <img src="images/pipeline_report_processing.jpeg" alt="Pipeline" width="300">
   </a>
-  
 
 <h3 align="center">Automatic Sustainability Report Analysis</h3>
 
