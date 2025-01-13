@@ -21,4 +21,20 @@
     <li>Disclosure information summary with LLMs</li>
     <li>TCFD conformity assessment or Q&A with LLMs based on disclosure sumamries</li>
   </ol>
-</div>
+
+<div align="left">
+  <h2 align="left">Setup</h3>
+  
+1. **Clone the GitHub Repository**:
+```bash
+git clone git@github.com:ZejieGuo/analyze_sustainability_report_with_ai.git
+```
+
+2. **Set up and Activate Python Environment**
+```bash
+python -m venv venv_sustain_ai
+```
+- Now activate this environment:
+```bash
+source venv_sustain_ai/bin/activate
+```
