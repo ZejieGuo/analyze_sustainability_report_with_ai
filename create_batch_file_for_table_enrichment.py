@@ -58,7 +58,7 @@ def create_prompt(html_table: str, table_content_text: str, document_context: st
     '''
     """
 
-def create_batch_request(element_id: str, prompt: str) -> Dict[str, Any]:
+def create_batch_request(element_id: str, prompt: str, max_tokens: int = 1700) -> Dict[str, Any]:
     """Create a single batch request entry."""
     return {
         "custom_id": element_id,
@@ -130,7 +130,7 @@ def get_context(elements, current_element):
     
     return "\n".join(context)
 
-def create_batch_file(input_data: List[Dict], output_file: str) -> None:
+def create_batch_file(input_data: List[Dict], output_file: str, max_tokens: int = 1700) -> None:
     """
     Create a JSONL batch file for processing tables.
     
@@ -164,7 +164,7 @@ def create_batch_file(input_data: List[Dict], output_file: str) -> None:
                     prompt = create_prompt(html_table, table_content_text, context)
                     
                     # Create batch request
-                    batch_request = create_batch_request(element_id, prompt)
+                    batch_request = create_batch_request(element_id, prompt, max_tokens)
                     batch_requests.append(batch_request)
                     table_count += 1
                     
@@ -183,7 +183,7 @@ def create_batch_file(input_data: List[Dict], output_file: str) -> None:
         print(f"Error creating batch file: {str(e)}")
         raise
 
-def process_file(input_file: str, output_file: str) -> None:
+def process_file(input_file: str, output_file: str, max_tokens: int = 1700) -> None:
     """Process a single JSON file."""
     try:
         print(f"Processing file: {input_file}")
@@ -194,11 +194,11 @@ def process_file(input_file: str, output_file: str) -> None:
             print(f"No data found in {input_file}")
             return
 
-        create_batch_file(input_data, output_file)
+        create_batch_file(input_data, output_file, max_tokens)
     except Exception as e:
         print(f"Error processing file {input_file}: {str(e)}")
 
-def process_folder(input_folder: str, output_folder: str) -> None:
+def process_folder(input_folder: str, output_folder: str, max_tokens: int = 1700) -> None:
     """Process all JSON files in a folder."""
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -207,24 +207,25 @@ def process_folder(input_folder: str, output_folder: str) -> None:
         if file_name.endswith(".json"):
             input_file = os.path.join(input_folder, file_name)
             output_file = os.path.join(output_folder, f"{os.path.splitext(file_name)[0]}_markdown_requests.jsonl")
-            process_file(input_file, output_file)
+            process_file(input_file, output_file, max_tokens)
 
-def main(input_path: str, output_folder: str) -> None:
+def main(input_path: str, output_folder: str, max_tokens: int = 1700) -> None:
     """
     Main function to process a file or folder.
     
     Args:
         input_path: Path to input file or folder
         output_folder: Path to output folder
+        max_tokens: Maximum tokens for the API (default: 1700)
     """
     if os.path.isfile(input_path):
         print(f"Processing single file: {input_path}")
         file_name = os.path.basename(input_path).replace('.json', '')
         output_file = os.path.join(output_folder, f"{file_name}_markdown_requests.jsonl")
-        process_file(input_path, output_file)
+        process_file(input_path, output_file, max_tokens)
     elif os.path.isdir(input_path):
         print(f"Processing all files in folder: {input_path}")
-        process_folder(input_path, output_folder)
+        process_folder(input_path, output_folder, max_tokens)
     else:
         print(f"Invalid input path: {input_path}. Please provide a valid file or folder.")
 
@@ -237,4 +238,4 @@ if __name__ == "__main__":
     parser.add_argument("--max_tokens", type=int, default=1700, help="Maximum tokens for GPT (default: 1700).")
     
     args = parser.parse_args()
-    main(args.input_path, args.output_folder)
+    main(args.input_path, args.output_folder, args.max_tokens)
