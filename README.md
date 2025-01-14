@@ -23,7 +23,7 @@
   </ol>
 
 <div align="left">
-  <h2 align="left">Setup</h3>
+  <h2 align="left">Setup</h2>
   
 1. **Clone the GitHub Repository**:
 ```bash
@@ -38,3 +38,54 @@ python -m venv venv_sustain_ai
 ```bash
 source venv_sustain_ai/bin/activate
 ```
+
+<div align="left">
+  <h2 align="left">Report Processing Stage</h2>
+
+  1. **Semantic Chunking and Text Extraction**:
+```bash
+python3 semantic_chunking.py --pdf_dir "./example_sustainability_report/" --output_dir "./example_chunk_output/"
+```
+2. **Batch File Preparation for GPT API: Markdown Table Transformation and Table Enrichment**:
+```bash
+python3 create_batch_file_for_table_enrichment.py --input_path "./example_chunk_output/" --output_folder "./batch_file/"
+```
+3. **Batch Processing with GPT API**:
+- Upload batch file:
+  ```bash
+  from openai import OpenAI
+  client = OpenAI()
+  
+  batch_input_file = client.files.create(
+    file=open(f"./batch_file/FILE_NAME.jsonl", "rb"),
+    purpose="batch"
+  )
+  ```
+- Creating batch:
+  ```bash
+  batch_input_file_id = batch_input_file.id
+  
+  client.batches.create(
+      input_file_id=batch_input_file_id,
+      endpoint="/v1/chat/completions",
+      completion_window="24h",
+      metadata={
+        "description": "nightly eval job"
+      }
+  )
+  ```
+- Check batch status:
+  ```bash
+  client.batches.retrieve("BATCH_ID")
+  ```
+- Check batch output:
+  ```bash
+  file_response = client.files.content("OUTPUT_FILE_ID")
+  print(file_response.text)
+  ```
+- Save batch output to file:
+  ```bash  
+  with open(f"OUTPUT_FILE_NAME.jsonl", "w", encoding='utf-8') as f:
+      f.write(file_response.text)
+  ```
+4. **Combine Batch Output with Original File**:
