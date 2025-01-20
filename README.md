@@ -12,7 +12,7 @@
   <h3 align="left">Report Processing Module</h3>
   <ol align="left">
     <li>Semantic chunking with Unstructured.io</li>
-    <li>Marddown table formatting and table enrichment</li>
+    <li>Context-aware representation: Mardown table formatting and table enrichment</li>
     <li>Embedding and semantic search with Pinecone DB</li>
   </ol>
   
