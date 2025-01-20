@@ -101,7 +101,7 @@ python3 context_aware_represensation_batch.py --input_path "./example_chunk_outp
       f.write(file_response.text)
   ```
 
-4. **Combine Batch Output with Original File**:
+4. **Combine Context-Aware Batch Output with Initial Text Chunk File**:
 
 ```bash
 python3 merge_context_aware_representation.py --batch_output_file "example_context_aware_batch_output/abb_2023_1500char_markdown_description_batch_output.jsonl" --init_text_chunk_file "example_chunk_output/abb_2023_yolox_1500char.json" --output_file "updated_text_chunk/abb_2023_updated.json"
