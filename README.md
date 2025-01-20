@@ -43,7 +43,7 @@ source venv_sustain_ai/bin/activate
 ```
 
 <div align="left">
-  <h2 align="left">Report Processing Stage</h2>
+  <h2 align="left">Report Processing Module</h2>
 
 1. **Semantic Chunking and Text Extraction**:
 
@@ -106,3 +106,11 @@ python3 context_aware_represensation_batch.py --input_path "./example_chunk_outp
 ```bash
 python3 merge_context_aware_representation.py --batch_output_file "example_context_aware_batch_output/abb_2023_1500char_markdown_description_batch_output.jsonl" --init_text_chunk_file "example_chunk_output/abb_2023_yolox_1500char.json" --output_file "updated_text_chunk/abb_2023_updated.json"
 ```
+
+5. **Semantic Search**:
+
+<div align="left">
+  <h2 align="left">LLM Agent Module</h2>
+
+1. **Disclosure Summarization**:
+2. **TCFD Conformity Assessment**:
