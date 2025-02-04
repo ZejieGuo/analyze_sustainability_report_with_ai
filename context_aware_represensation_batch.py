@@ -1,6 +1,7 @@
 
 import os
 import json
+import argparse
 from typing import List, Dict, Any
 from dotenv import load_dotenv
 
@@ -230,8 +231,6 @@ def main(input_path: str, output_folder: str, max_tokens: int = 1700) -> None:
         print(f"Invalid input path: {input_path}. Please provide a valid file or folder.")
 
 if __name__ == "__main__":
-    import argparse
-
     parser = argparse.ArgumentParser(description="Batch processing for table enrichment.")    
     parser.add_argument("--input_path", required=True, help="Input file or folder path (JSON file or folder containing JSON files).")
     parser.add_argument("--output_folder", required=True, help="Output folder for batch files.")
