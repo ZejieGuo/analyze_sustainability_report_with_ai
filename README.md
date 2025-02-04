@@ -106,11 +106,25 @@ python3 context_aware_represensation_batch.py --input_path "./example_chunk_outp
 ```bash
 python3 merge_context_aware_representation.py --batch_output_file "example_context_aware_batch_output/abb_2023_1500char_markdown_description_batch_output.jsonl" --init_text_chunk_file "example_chunk_output/abb_2023_yolox_1500char.json" --output_file "updated_text_chunk/abb_2023_updated.json"
 ```
+5. **Embedding**:
+  - Generate batch embedding requests for the updated context-aware text chunks:
+    ```bash
+    python3 embedding_batch.py --input_path "[context-aware text chunk file]" --output_folder "[output folder]"
+    ```
 
-5. **Semantic Search**:
+  - Batch processing with OpenAI Embedding API
+    
+  - Add embddings to the context-aware text chunk file:
+
+    ```bash
+    python3 merge_embedding.py --input_embedding "[path to the JSONL file containing embeddings]" --input_text_chunk "[path to the JSON file containing context-aware text chunks] --output "[path to the output JSON file to save merged data]""
+    ```
+  - Format data and insert to PineconeDB
+
+6. **Semantic Search**
 
 <div align="left">
   <h2 align="left">LLM Agent Module</h2>
 
-1. **Disclosure Summarization**:
-2. **TCFD Conformity Assessment**:
+1. **Disclosure Summarization**
+2. **TCFD Conformity Assessment**
